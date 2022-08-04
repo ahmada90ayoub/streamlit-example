@@ -7,7 +7,7 @@ from executer import run_test,load_json_from_file
 
 def run_app():
 
-    st_json=load_json_from_file("st.json")
+    st_json=load_json_from_file("https://github.com/ahmada90ayoub/streamlit-example/blob/93509104e28635513eb4f47a22e8d0b7b7aa4cd5/st.json")
     st.title("RoboTester")
     st.subheader("Form Tutorial")
     form1=st.form(key='form1')
