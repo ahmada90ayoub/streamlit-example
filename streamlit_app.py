@@ -52,8 +52,8 @@ def run_app():
     all_tests_list=[]
     #tests_path = st_json["tests_path"]
     #tests_config=st_json["test_config"]   
-    #tests_path = "C:\\RoboTester\\RoboTesterAuto\\GoTests\\projectcloud\\tests"
-    #tests_config="C:\\RoboTester\\RoboTesterAuto\\GoTests\\projectcloud\\tests_config"
+    tests_path = "C:\\RoboTester\\RoboTesterAuto\\GoTests\\projectcloud\\tests"
+    tests_config="C:\\RoboTester\\RoboTesterAuto\\GoTests\\projectcloud\\tests_config"
     for filename in os.listdir(tests_path):
         all_tests_list.append(filename.split(".")[0])
     test_name = form1.selectbox("Test", all_tests_list)
