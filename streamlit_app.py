@@ -1,38 +1,64 @@
-from collections import namedtuple
-import altair as alt
-import math
-import pandas as pd
+import os
+import webbrowser
+
 import streamlit as st
-
-"""
-# Welcome to Streamlit!
-
-Edit `/streamlit_app.py` to customize this app to your heart's desire :heart:
-
-If you have any questions, checkout our [documentation](https://docs.streamlit.io) and [community
-forums](https://discuss.streamlit.io).
-
-In the meantime, below is an example of what you can do with just a few lines of code:
-"""
+from executer import run_test,load_json_from_file
 
 
-with st.echo(code_location='below'):
-    total_points = st.slider("Number of points in spiral", 1, 5000, 2000)
-    num_turns = st.slider("Number of turns in spiral", 1, 100, 9)
+def run_app():
 
-    Point = namedtuple('Point', 'x y')
-    data = []
+    st_json=load_json_from_file("st.json")
+    st.title("RoboTester")
+    st.subheader("Form Tutorial")
+    form1=st.form(key='form1')
+    all_tests_list=[]
+    tests_path = st_json["tests_path"]
+    tests_config=st_json["test_config"]
+    for filename in os.listdir(tests_path):
+        all_tests_list.append(filename.split(".")[0])
+    test_name = form1.selectbox("Test", all_tests_list)
+    run_test_button = form1.form_submit_button("run test")
 
-    points_per_turn = total_points / num_turns
 
-    for curr_point_num in range(total_points):
-        curr_turn, i = divmod(curr_point_num, points_per_turn)
-        angle = (curr_turn + 1) * 2 * math.pi * i / points_per_turn
-        radius = curr_point_num / total_points
-        x = radius * math.cos(angle)
-        y = radius * math.sin(angle)
-        data.append(Point(x, y))
 
-    st.altair_chart(alt.Chart(pd.DataFrame(data), height=500, width=500)
-        .mark_circle(color='#0068c9', opacity=0.5)
-        .encode(x='x:Q', y='y:Q'))
+    if run_test_button:
+        #output_log=run_test(test_name)
+        output_log="a link"
+        #st.success(f"output _ log : \{output_log}")
+
+
+        with  st.form(key='form2'):
+            col1,col2= st.columns([2,1])
+            with col1:
+                st.success(f"output _ log : \{output_log}")
+                json_file_path = os.path.join(tests_config, f"{test_name}.json")
+                cont = load_json_from_file(json_file_path)
+                st.json(cont)
+            with col2:
+                st.form_submit_button("got_to_log_button",on_click=func1(output_log))
+                robot_file_path = os.path.join(tests_path, f"{test_name}.robot")
+                with open(robot_file_path, "r") as f:
+                    data = f.readlines()
+                all_data = "\n".join(data)
+                st.text(all_data)
+
+
+def func1(output_log):
+    print("yes2")
+    #webbrowser.open_new_tab("\\\\10.4.0.102\\swgwork1\\ahayoub\\work\\robot_results\\gui_output\\TestSample\\log.html")
+
+    #webbrowser.open_new_tab(output_log)
+
+
+
+
+
+
+
+
+
+
+
+
+if __name__ == "__main__":
+    run_app()
