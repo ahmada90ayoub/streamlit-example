@@ -45,13 +45,15 @@ def load_json_from_file(json_file):
 
 def run_app():
 
-    st_json=load_json_from_file("https://github.com/ahmada90ayoub/streamlit-example/blob/93509104e28635513eb4f47a22e8d0b7b7aa4cd5/st.json")
+    #st_json=load_json_from_file("https://github.com/ahmada90ayoub/streamlit-example/blob/93509104e28635513eb4f47a22e8d0b7b7aa4cd5/st.json")
     st.title("RoboTester")
     st.subheader("Form Tutorial")
     form1=st.form(key='form1')
     all_tests_list=[]
-    tests_path = st_json["tests_path"]
-    tests_config=st_json["test_config"]
+    #tests_path = st_json["tests_path"]
+    #tests_config=st_json["test_config"]   
+    #tests_path = "C:\\RoboTester\\RoboTesterAuto\\GoTests\\projectcloud\\tests"
+    #tests_config="C:\\RoboTester\\RoboTesterAuto\\GoTests\\projectcloud\\tests_config"
     for filename in os.listdir(tests_path):
         all_tests_list.append(filename.split(".")[0])
     test_name = form1.selectbox("Test", all_tests_list)
